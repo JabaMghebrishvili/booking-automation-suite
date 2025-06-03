@@ -2,22 +2,41 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="crossBrowserTesting" thread-count="2" parallel="tests">
-<!--    <parameter name="browserType" value="chrome"/>-->
-    <test name="chromeTest">
+    <test name="chrome-CoreFunctionality">
         <parameter name="browserType" value="chrome"/>
         <classes>
             <class name="com.booking.tests.CoreFunctionalityTests"/>
-<!--            <class name="com.booking.tests.DataDrivenTests"/>-->
-<!--            <class name="com.booking.tests.UIResponsivenessTests"/>-->
         </classes>
     </test>
-<!--    <parameter name="browserType" value="safari"/>-->
-    <test name="safariTest">
+    <test name="chrome-BookingMock">
+        <parameter name="browserType" value="chrome"/>
+        <classes>
+            <class name="com.booking.tests.BookingMockTests"/>
+        </classes>
+    </test>
+    <test name="chrome-DataDriven">
+        <parameter name="browserType" value="chrome"/>
+        <classes>
+            <class name="com.booking.tests.DataDrivenTests"/>
+        </classes>
+    </test>
+
+    <test name="safari-CoreFunctionality">
         <parameter name="browserType" value="safari"/>
         <classes>
             <class name="com.booking.tests.CoreFunctionalityTests"/>
-<!--            <class name="com.booking.tests.DataDrivenTests"/>-->
-<!--            <class name="com.booking.tests.UIResponsivenessTests"/>-->
+        </classes>
+    </test>
+    <test name="safari-BookingMock">
+        <parameter name="browserType" value="safari"/>
+        <classes>
+            <class name="com.booking.tests.BookingMockTests"/>
+        </classes>
+    </test>
+    <test name="safari-DataDriven">
+        <parameter name="browserType" value="safari"/>
+        <classes>
+            <class name="com.booking.tests.DataDrivenTests"/>
         </classes>
     </test>
 </suite>

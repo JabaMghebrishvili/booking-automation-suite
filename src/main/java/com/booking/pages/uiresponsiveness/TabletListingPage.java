@@ -9,6 +9,4 @@ public class TabletListingPage {
     public TabletListingPage(Page page) {
         this.offerCards = page.getByTestId("property-card");
     }
-
-
 }

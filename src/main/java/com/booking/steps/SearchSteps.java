@@ -118,19 +118,6 @@ public class SearchSteps {
         return this;
     }
 
-//    @Step("Fill min price input with value: {price}")
-//    public SearchSteps fillMinPrice(PriceRange price) {
-//        searchPage.minSlider.fill(price.getValue());
-//
-//        return this;
-//    }
-//
-//    @Step("Fill max price input with value: {price}")
-//    public SearchSteps fillMaxPrice(PriceRange price) {
-//        searchPage.maxSlider.fill(price.getValue());
-//        return this;
-//    }
-
     @Step("Validate all initial prices per night are within selected range")
     public SearchSteps validateInitialPricesPerNightInRange() {
         String nightsText = searchPage.nightsCount.first().innerText().trim(); // "8 nights, 2 adults"

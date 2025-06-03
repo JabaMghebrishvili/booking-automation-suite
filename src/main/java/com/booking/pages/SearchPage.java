@@ -1,6 +1,5 @@
 package com.booking.pages;
 
-import com.booking.enums.Rating;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
@@ -100,8 +99,4 @@ public class SearchPage {
         return card.getByTestId("rating-stars").locator("span");
     }
 
-    /// /ესეც წასაშლელია
-    public Page getPage() {
-        return this.page;
-    }
 }

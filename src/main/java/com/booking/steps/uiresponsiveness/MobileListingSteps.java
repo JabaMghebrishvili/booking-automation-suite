@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import static com.booking.data.Constants.*;
 
-
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class MobileListingSteps {
@@ -27,7 +26,7 @@ public class MobileListingSteps {
     @Step("Validate that the header is sticky after scrolling")
     public MobileListingSteps validateHeaderIsStickyOnScroll() {
         page.waitForLoadState(LoadState.LOAD);
-//        page.mouse().wheel(0, 500);
+//        page.mouse().wheel(0, 500);  // webkit-ზე არ მუშაობდა მაუსით სქროლი
         page.evaluate("window.scrollBy(0, 500);");
 
         assertThat(mobileListingPage.header).isVisible();

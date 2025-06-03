@@ -34,7 +34,10 @@ public class Constants {
     UNSUPPORTED_BROWSER = "Unsupported browser type: ",
     NOT_VERTICALLY_ALIGNED = "Offer is not vertically aligned.",
     CHROMIUM = "chromium",
-    WEBKIT = "webkit";
+    WEBKIT = "webkit",
+    MOBILE = "mobile",
+    TABLET = "tablet",
+    DESKTOP = "desktop";
 
     public static final int DELAY = 4000,
     DESKTOP_WIDTH = 1920,

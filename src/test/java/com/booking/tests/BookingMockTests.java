@@ -14,9 +14,9 @@ import static com.booking.data.Constants.*;
 
 import java.util.regex.Pattern;
 
-@Epic("Booking Mock Test")
+@Epic("Booking Mock Tests")
 @Feature("Search Results Mock Testing")
-public class BookingMockTests2 extends BaseTest {
+public class BookingMockTests extends BaseTest {
 
     HomeSteps homeSteps;
     MockListingSteps mockListingSteps;

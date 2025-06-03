@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import static com.booking.data.Constants.*;
 
 @Epic("Core Functionality Tests")
-//@Feature("Hotels Search")
 public class CoreFunctionalityTests extends BaseTest {
     HomeSteps homeSteps;
     SearchSteps searchSteps;

@@ -1,7 +1,6 @@
 package com.booking.steps;
 
 import com.booking.pages.MockListingPage;
-import com.booking.steps.uiresponsiveness.MobileListingSteps;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 import org.slf4j.Logger;

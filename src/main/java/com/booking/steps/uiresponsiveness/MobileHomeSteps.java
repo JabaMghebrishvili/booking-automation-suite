@@ -42,5 +42,4 @@ public class MobileHomeSteps {
         page.reload();
         return this;
     }
-
 }

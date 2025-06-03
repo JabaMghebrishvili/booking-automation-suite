@@ -5,7 +5,6 @@ import java.util.Objects;
 public class OfferData {
     private String title;
     private String price;
-
     private String rating;
 
     public OfferData(String title, String price, String rating) {

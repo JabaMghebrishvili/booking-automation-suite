@@ -3,11 +3,13 @@ package com.booking.runners;
 import com.microsoft.playwright.*;
 import io.qameta.allure.Attachment;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 
 import static com.booking.data.Constants.*;
 
 public abstract class BaseTestResponsiveness {
+    Playwright playwright;
     protected Page page;
     protected Browser browser;
     protected BrowserContext context;
@@ -16,7 +18,7 @@ public abstract class BaseTestResponsiveness {
     public BaseTestResponsiveness(String browserType, String deviceType) {
         this.deviceType = deviceType;
 
-        Playwright playwright = Playwright.create();
+        playwright = Playwright.create();
 
         BrowserType type = switch (browserType.toLowerCase()) {
             case "chromium" -> playwright.chromium();
@@ -39,7 +41,7 @@ public abstract class BaseTestResponsiveness {
             default -> throw new IllegalArgumentException(UNSUPPORTED_DEVICE + deviceType);
         }
 
-        browser = type.launch(new BrowserType.LaunchOptions().setHeadless(false));
+        browser = type.launch(new BrowserType.LaunchOptions().setHeadless(true));
         context = browser.newContext(new Browser.NewContextOptions()
                 .setViewportSize(width, height)
                 .setDeviceScaleFactor(2.0)
@@ -62,5 +64,13 @@ public abstract class BaseTestResponsiveness {
             e.printStackTrace();
             return new byte[0];
         }
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void tearDown() {
+        if (page != null) page.close();
+        if (context != null) context.close();
+        if (browser != null) browser.close();
+        if (playwright != null) playwright.close();
     }
 }
