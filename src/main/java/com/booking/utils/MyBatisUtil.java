@@ -2,6 +2,7 @@ package com.booking.utils;
 
 import java.io.Reader;
 
+import com.booking.data.Constants;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -16,7 +17,7 @@ public class MyBatisUtil {
             reader.close();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Error initializing MyBatis. Cause: " + e);
+            throw new RuntimeException(Constants.MYBATIS_INIT_ERROR + e);
         }
     }
 

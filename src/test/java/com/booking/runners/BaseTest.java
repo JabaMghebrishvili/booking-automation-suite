@@ -1,10 +1,14 @@
 package com.booking.runners;
 
 import com.microsoft.playwright.*;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.testng.AllureTestNg;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.util.Arrays;
 
+@Listeners({AllureTestNg.class})
 public class BaseTest {
 //    Playwright playwright;
 //    Browser browser;
@@ -61,6 +65,23 @@ public class BaseTest {
     @BeforeMethod
     public void beforeMethod() {
         page = browserContext.newPage();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void takeScreenshotOnFailure(ITestResult result) {
+        if (!result.isSuccess()) {
+            attachScreenshot("Failure screenshot - " + result.getName());
+        }
+    }
+
+    @Attachment(value = "{0}", type = "image/png")
+    public byte[] attachScreenshot(String name) {
+        try {
+            return page.screenshot(new Page.ScreenshotOptions().setFullPage(true));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new byte[0];
+        }
     }
 
     @AfterClass

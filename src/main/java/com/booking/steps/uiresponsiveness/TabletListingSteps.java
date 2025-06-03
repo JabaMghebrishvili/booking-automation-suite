@@ -1,9 +1,11 @@
 package com.booking.steps.uiresponsiveness;
 
+import com.booking.data.Constants;
 import com.booking.pages.uiresponsiveness.TabletListingPage;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.BoundingBox;
 import com.microsoft.playwright.options.LoadState;
+import io.qameta.allure.Step;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -18,32 +20,27 @@ public class TabletListingSteps {
         this.tabletListingPage = new TabletListingPage(page);
     }
 
+    @Step("Validate that all offer cards are vertically stacked")
     public TabletListingSteps validateOffersAreVerticallyStacked() {
         page.waitForLoadState(LoadState.LOAD);
 
         int offerCount = tabletListingPage.offerCards.count();
-        Assert.assertTrue(offerCount > 0, "No offer cards found!");
+        Assert.assertTrue(offerCount > 0, Constants.NO_OFFERS_FOUND);
 
         BoundingBox firstBox = tabletListingPage.offerCards.nth(0).boundingBox();
-        Assert.assertNotNull(firstBox, "Bounding box is null for first offer card");
+        Assert.assertNotNull(firstBox);
         int expectedX = (int) firstBox.x;
 
         for (int i = 0; i < offerCount; i++) {
             BoundingBox box = tabletListingPage.offerCards.nth(i).boundingBox();
-//            Assert.assertNotNull(box, "Bounding box is null for offer card " + i);
             int currentX = (int) box.x;
 
             logger.info("Offer [{}] - x: {}, y: {}", i, currentX, (int) box.y);
 
-            Assert.assertEquals(currentX, expectedX,
-                    "Offer " + i + " is not vertically aligned. X: " + currentX + ", expected: " + expectedX
-            );
+            Assert.assertEquals(currentX, expectedX, Constants.NOT_VERTICALLY_ALIGNED);
         }
         logger.info("All offer cards are vertically stacked (Tablet layout validated).");
 
         return this;
     }
-
-
-
 }

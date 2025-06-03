@@ -5,10 +5,13 @@ import com.booking.model.BookingCase;
 import com.booking.runners.BaseTest;
 import com.booking.steps.HomeSteps;
 import com.booking.steps.SearchSteps;
+import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static com.booking.data.Constants.*;
 
+@Epic("Data Driven Tests")
+@Feature("Search Functionality with Data-Driven Testing")
 public class DataDrivenTests extends BaseTest {
     HomeSteps homeSteps;
     SearchSteps searchSteps;
@@ -17,25 +20,18 @@ public class DataDrivenTests extends BaseTest {
     public void initSteps() {
         this.homeSteps = new HomeSteps(page);
         this.searchSteps = new SearchSteps(page);
-    }
 
-    @Test
-    public void searchingFormTest() {
         page.navigate(BOOKING_URL);
-
-        homeSteps
-                .fillDestinationInput(SEARCH_BATUMI)
-                .waitAndValidateFirstOption(SEARCH_BATUMI)
-                .clickDatesSearchBox()
-                .selectCheckInDate(CHECK_IN_DATE)
-                .selectCheckOutDate("2025-06-20")
-                .initiateSearch();
     }
 
-    @Test(dataProvider = "bookingCasesProvider", dataProviderClass = DataSupplier.class)
+    @Test(description = "[SQDTBC-T1460] Data-driven test: verifies search functionality using multiple booking cases from the database",
+            dataProvider = "bookingCasesDataProvider", dataProviderClass = DataSupplier.class)
+    @Story("User searches with various data sets and validates search results on listing page")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Performs searches with data from a database and verifies that the search results listing matches the " +
+            "search criteria (destination, dates, guests)")
+    @Link(name = "Test Case Management", url = "https://fake-jira.com/testcase/SQDTBC-T1460")
     public void searchFormTestWithDatabaseData(BookingCase bookingCase) {
-        page.navigate(BOOKING_URL);
-
         homeSteps
                 .fillDestinationInput(bookingCase.getDestination())
                 .waitAndValidateFirstOption(bookingCase.getDestination())
@@ -44,15 +40,11 @@ public class DataDrivenTests extends BaseTest {
                 .selectCheckOutDate(bookingCase.getCheckOutAsString())
                 .expandGuestsSection()
                 .setGuestsNumber(bookingCase.getGuests())
-//                .fillGuestsInput("5")
-//                .fillGuests(bookingCase.getGuests()) // ეს უნდა დაამატო შენს Steps კლასში
                 .initiateSearch();
         searchSteps
                 .waitForOffersUpdate()
-//                .validateSearchResultsTitle(bookingCase.getDestination()) // თარიღების ვალიდაცია თუ გადმოვიტანე
-                                                                            // search steps-ში იმასაც ჩავსვავ აქ
                 .validateHotelAddresses(bookingCase.getDestination())
-                .validateNightCount(bookingCase.getCheckInAsString(), bookingCase.getCheckOutAsString())
+                .validateNightsCount(bookingCase.getCheckInAsString(), bookingCase.getCheckOutAsString())
                 .validateGuestsCount(bookingCase.getGuests());
     }
 }

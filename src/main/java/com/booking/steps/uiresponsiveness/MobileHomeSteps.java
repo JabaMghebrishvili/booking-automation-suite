@@ -2,6 +2,7 @@ package com.booking.steps.uiresponsiveness;
 
 import com.booking.pages.uiresponsiveness.MobileHomePage;
 import com.microsoft.playwright.Page;
+import io.qameta.allure.Step;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,49 +18,29 @@ public class MobileHomeSteps {
         mobileHomePage = new MobileHomePage(page);
     }
 
-    public MobileHomeSteps setViewPort(int width, int height) {
-        page.setViewportSize(width, height);
-
-        int innerWidth = (int) page.evaluate("() => window.innerWidth");
-        int innerHeight = (int) page.evaluate("() => window.innerHeight");
-        logger.info("Viewport size: width: {}, height: {}", innerWidth, innerHeight);
-
-        return this;
-    }
-
+    @Step("Validate hamburger menu is visible")
     public MobileHomeSteps validateHamburgerMenuIsVisible() {
         assertThat(mobileHomePage.hamburgerMenu).isVisible();
 
         return this;
     }
 
+    @Step("Fill search input with: {search}")
     public MobileHomeSteps fillSearchInput(String search) {
         mobileHomePage.searchInput.fill(search);
         return this;
     }
+
+    @Step("Initiate search (press Enter on search input)")
     public MobileHomeSteps initiateSearch() {
         mobileHomePage.searchInput.press("Enter");
-
         return this;
     }
 
+    @Step("Reload the page")
     public MobileHomeSteps reloadPage(){
         page.reload();
         return this;
     }
 
-    public MobileHomeSteps clickDatesSearchBox() {
-        mobileHomePage.datesSearchBox.click();
-        return this;
-    }
-
-    public MobileHomeSteps selectCheckInDate(String date) {
-        mobileHomePage.checkInDatePicker(date).click();
-        return this;
-    }
-
-    public MobileHomeSteps selectCheckOutDate(String date) {
-        mobileHomePage.checkOutDatePicker(date).click();
-        return this;
-    }
 }

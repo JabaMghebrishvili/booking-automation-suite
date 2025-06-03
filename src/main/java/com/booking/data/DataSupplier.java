@@ -9,7 +9,7 @@ import org.testng.annotations.DataProvider;
 import java.util.List;
 
 public class DataSupplier {
-    @DataProvider(name = "bookingCasesProvider")
+    @DataProvider(name = "bookingCasesDataProvider")
     public Object[][] getBookingCases() {
         try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) {
             BookingCaseMapper mapper = session.getMapper(BookingCaseMapper.class);

@@ -17,6 +17,9 @@ public class SearchPage {
     public Locator maxSliderHandle;
     public Locator sliderParentDiv;
     public Locator filtersHistogram;
+    public Locator searchBoxLayout;
+    public Locator startDate;
+    public Locator endDate;
     public Locator mapImage;
     public Locator discountedPrice;
     public Locator nightsCount;
@@ -31,11 +34,11 @@ public class SearchPage {
     public Locator topReviewedOption;
     public Locator reviewScores;
     public Locator offerTitle;
-//    public Locator input2;
+    public Locator gridLayoutButton;
 
     public SearchPage(Page page) {
         this.page = page;
-        this.searchResultsTitle = page.locator("h1[aria-live]"); // h1.b87c397a13 ამ სელექტორითაც შეიძლება
+        this.searchResultsTitle = page.locator("h1[aria-live]");
         this.offerCards = page.getByTestId("property-card-container");
         this.offerAddress = offerCards.getByTestId("address");
         this.firstOffer = offerCards.getByTestId("property-card-desktop-single-image").first();
@@ -43,25 +46,26 @@ public class SearchPage {
         this.maxSlider = page.locator("div.e7e72a1761 input[aria-label='Max.']").first();
         this.minSliderHandle = page.locator("div.fc835e65e6").first();
         this.maxSliderHandle = page.locator("div.fc835e65e6").last();
-        this.sliderParentDiv = page.locator("div.d27b5e9710").first(); // div.e7e72a1761
+        this.sliderParentDiv = page.locator("div.d27b5e9710").first();
         this.filtersHistogram = page.getByTestId("filters-group-histogram");
+        this.searchBoxLayout = page.getByTestId("searchbox-layout-wide");
+        this.startDate = searchBoxLayout.getByTestId("date-display-field-start");
+        this.endDate = searchBoxLayout.getByTestId("date-display-field-end");
         this.mapImage = page.locator("div.a88a546fb2");
         this.discountedPrice = page.getByTestId("price-and-discounted-price");
         this.nightsCount = page.getByTestId("price-for-x-nights");
         this.priceInFilter = page.getByRole(AriaRole.STATUS).locator("div"); // [role='status'] div
         this.propertyRatingLabels = page.locator("//span[text()='Property rating']//ancestor::fieldset//label");
         this.ratingStarsCount = offerCards.getByTestId("rating-stars").locator("span");
-//        this.ratingStarsCount = page.locator("[data-testid='rating-stars'] span");
         this.mealsLabels = page.locator("//span[text()='Meals']//ancestor::fieldset//label");
         this.recommendedUnits = offerCards.getByTestId("recommended-units");
         this.reservationPolicy = page.locator("//span[text()='Reservation policy']//ancestor::fieldset//label");
-//        this.sortersDropdownButton = page.getByTestId("sorters-dropdown-trigger"); // ცოტა ხნით ამას დავაკომენტარებ
         this.sortersDropdownButton = page.locator("button[data-testid='sorters-dropdown-trigger']");
         this.reviewScoreLabels = page.locator("//span[text()='Review score']//ancestor::fieldset//label");
         this.topReviewedOption = page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName("Top reviewed"));
-//        this.reviewScores = offerCards.getByTestId("review-score").locator("div.bc946a29db"); // [data-testid='review-score'] div.bc946a29db
         this.reviewScores = page.locator("[data-testid='review-score'] > div.bc946a29db");
         this.offerTitle = offerCards.getByTestId("title");
+        this.gridLayoutButton = page.getByLabel("Grid");
     }
 
     public Locator input(String label) {
@@ -96,9 +100,8 @@ public class SearchPage {
         return card.getByTestId("rating-stars").locator("span");
     }
 
+    /// /ესეც წასაშლელია
     public Page getPage() {
         return this.page;
     }
-
-
 }

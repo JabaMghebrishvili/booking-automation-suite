@@ -1,14 +1,18 @@
 package com.booking.tests;
 
-import com.booking.runners.BaseTest;
+import com.booking.runners.BaseTestResponsiveness;
 import com.booking.steps.HomeSteps;
 import com.booking.steps.SearchSteps;
 import com.booking.steps.uiresponsiveness.*;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import io.qameta.allure.*;
+import org.testng.annotations.*;
+
 import static com.booking.data.Constants.*;
 
-public class UIResponsivenessTests extends BaseTest {
+@Epic("Responsive UI Tests")
+@Feature("Layout validation on different device viewports")
+public class UIResponsivenessTests3 extends BaseTestResponsiveness {
+
     BaseSteps baseSteps;
     HomeSteps homeSteps;
     SearchSteps searchSteps;
@@ -16,6 +20,10 @@ public class UIResponsivenessTests extends BaseTest {
     TabletListingSteps tabletListingSteps;
     MobileHomeSteps mobileHomeSteps;
     MobileListingSteps mobileListingSteps;
+
+    public UIResponsivenessTests3(String browserType, String deviceType) {
+        super(browserType, deviceType);
+    }
 
     @BeforeMethod
     public void initSteps() {
@@ -30,10 +38,14 @@ public class UIResponsivenessTests extends BaseTest {
         page.navigate(BOOKING_URL);
     }
 
-    @Test(priority = 2)
+    @Test(description = "[SQDTBC-T3001] Validate UI and search results on Desktop viewport")
+    @Story("User uses desktop device to perform search and verifies UI elements and grid layout")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Validates visibility of sign up/sign in buttons, navigation menu and that the search results " +
+            "grid layout displays 3 offers per row on desktop viewport")
+    @Link(name = "Jira Ticket", url = "https://fake-jira-link.com/SQDTBC-T3001")
     public void desktopViewPortTest() {
-        baseSteps
-                .setViewPort(DESKTOP_WIDTH, DESKTOP_HEIGHT);
+        if (!deviceType.equals("desktop")) return;
         homeSteps
                 .validateSignUpButtonIsVisible()
                 .validateSignInButtonIsVisible()
@@ -50,10 +62,13 @@ public class UIResponsivenessTests extends BaseTest {
                 .validateGridLayoutHasThreeOffersPerRow();
     }
 
-    @Test(priority = 1)
+    @Test(description = "[SQDTBC-T3002] Validate UI and search results on Tablet viewport")
+    @Story("User uses tablet device to perform search and verifies UI elements and vertical stacking of offers")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Validates search bar visibility, footer links stacking and that offers are vertically stacked on tablet viewport")
+    @Link(name = "Jira Ticket", url = "https://fake-jira-link.com/SQDTBC-T3002")
     public void tabletViewPortTest() {
-        baseSteps
-                .setViewPort(TABLET_WIDTH, TABLET_HEIGHT);
+        if (!deviceType.equals("tablet")) return;
         tabletHomeSteps
                 .validateSearchBarIsVisible()
                 .validateFooterLinksAreVerticallyStacked()
@@ -63,10 +78,14 @@ public class UIResponsivenessTests extends BaseTest {
                 .validateOffersAreVerticallyStacked();
     }
 
-    @Test
+    @Test(description = "[SQDTBC-T3003] Validate UI and search results on Mobile viewport")
+    @Story("User uses mobile device to perform search and verifies hamburger menu, offer layout, and sticky header")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Validates hamburger menu visibility, single column offer layout, collapsed calendar and sticky header " +
+            "on scroll in mobile viewport")
+    @Link(name = "Jira Ticket", url = "https://your-jira-link.com/SQDTBC-T3003")
     public void mobileViewPortTest() {
-        baseSteps
-                .setViewPort(MOBILE_WIDTH, MOBILE_HEIGHT);
+        if (!deviceType.equals("mobile")) return;
         mobileHomeSteps
                 .validateHamburgerMenuIsVisible()
                 .fillSearchInput(SEARCH_BATUMI)
@@ -75,5 +94,12 @@ public class UIResponsivenessTests extends BaseTest {
                 .collapseCalendar()
                 .validateOffersAreInSingleColumn()
                 .validateHeaderIsStickyOnScroll();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void tearDown() {
+        if (page != null) page.close();
+        if (context != null) context.close();
+        if (browser != null) browser.close();
     }
 }

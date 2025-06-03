@@ -1,7 +1,6 @@
 package com.booking.steps.uiresponsiveness;
 
 import com.booking.pages.uiresponsiveness.DesktopHomePage;
-import com.booking.steps.HomeSteps;
 import com.microsoft.playwright.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +17,6 @@ public class DesktopHomeSteps {
         this.desktopHomePage = new DesktopHomePage(page);
     }
 
-    public DesktopHomeSteps setViewPort(int width, int height) {
-        page.setViewportSize(width, height);
-
-        int innerWidth = (int) page.evaluate("() => window.innerWidth");
-        int innerHeight = (int) page.evaluate("() => window.innerHeight");
-        logger.info("Viewport size: width: {}, height: {}", innerWidth, innerHeight);
-
-        return this;
-    }
-
     public DesktopHomeSteps validateSignUpButtonIsVisible() {
         assertThat(desktopHomePage.headerSignUpButton).isVisible();
         return this;
@@ -40,7 +29,6 @@ public class DesktopHomeSteps {
 
     public DesktopHomeSteps validateHamburgerMenuIsNotVisible() {
         assertThat(desktopHomePage.hamburgerMenu).not().isVisible();
-
         return this;
     }
 

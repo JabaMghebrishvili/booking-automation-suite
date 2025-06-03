@@ -1,14 +1,20 @@
 package com.booking.tests;
 
-import com.booking.runners.BaseTest;
 import com.booking.steps.HomeSteps;
 import com.booking.steps.SearchSteps;
 import com.booking.steps.uiresponsiveness.*;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import com.microsoft.playwright.*;
+import org.testng.annotations.*;
 import static com.booking.data.Constants.*;
 
-public class UIResponsivenessTests extends BaseTest {
+
+public class UIResponsivenessTests2 {
+
+    private final Page page;
+    private final Browser browser;
+    private final BrowserContext context;
+    private final String deviceType;
+
     BaseSteps baseSteps;
     HomeSteps homeSteps;
     SearchSteps searchSteps;
@@ -16,6 +22,13 @@ public class UIResponsivenessTests extends BaseTest {
     TabletListingSteps tabletListingSteps;
     MobileHomeSteps mobileHomeSteps;
     MobileListingSteps mobileListingSteps;
+
+    public UIResponsivenessTests2(Page page, Browser browser, BrowserContext context, String deviceType) {
+        this.page = page;
+        this.browser = browser;
+        this.context = context;
+        this.deviceType = deviceType;
+    }
 
     @BeforeMethod
     public void initSteps() {
@@ -26,16 +39,14 @@ public class UIResponsivenessTests extends BaseTest {
         this.tabletListingSteps = new TabletListingSteps(page);
         this.mobileHomeSteps = new MobileHomeSteps(page);
         this.mobileListingSteps = new MobileListingSteps(page);
-
         page.navigate(BOOKING_URL);
     }
 
     @Test(priority = 2)
     public void desktopViewPortTest() {
-        baseSteps
-                .setViewPort(DESKTOP_WIDTH, DESKTOP_HEIGHT);
-        homeSteps
-                .validateSignUpButtonIsVisible()
+        if (!deviceType.equals("desktop")) return;
+//        baseSteps.setViewPort(DESKTOP_WIDTH, DESKTOP_HEIGHT);
+        homeSteps.validateSignUpButtonIsVisible()
                 .validateSignInButtonIsVisible()
                 .validateHamburgerMenuIsNotVisible()
                 .validateNavigationMenuIsFullyVisible()
@@ -45,35 +56,37 @@ public class UIResponsivenessTests extends BaseTest {
                 .selectCheckInDate(CHECK_IN_DATE)
                 .selectCheckOutDate(CHECK_OUT_DATE)
                 .initiateSearch();
-        searchSteps
-                .changeLayoutToGrid()
+        searchSteps.changeLayoutToGrid()
                 .validateGridLayoutHasThreeOffersPerRow();
     }
 
     @Test(priority = 1)
     public void tabletViewPortTest() {
-        baseSteps
-                .setViewPort(TABLET_WIDTH, TABLET_HEIGHT);
-        tabletHomeSteps
-                .validateSearchBarIsVisible()
+        if (!deviceType.equals("tablet")) return;
+//        baseSteps.setViewPort(TABLET_WIDTH, TABLET_HEIGHT);
+        tabletHomeSteps.validateSearchBarIsVisible()
                 .validateFooterLinksAreVerticallyStacked()
                 .fillSearchInput(SEARCH_BATUMI)
                 .initiateSearch();
-        tabletListingSteps
-                .validateOffersAreVerticallyStacked();
+        tabletListingSteps.validateOffersAreVerticallyStacked();
     }
 
     @Test
     public void mobileViewPortTest() {
-        baseSteps
-                .setViewPort(MOBILE_WIDTH, MOBILE_HEIGHT);
-        mobileHomeSteps
-                .validateHamburgerMenuIsVisible()
+        if (!deviceType.equals("mobile")) return;
+//        baseSteps.setViewPort(MOBILE_WIDTH, MOBILE_HEIGHT);
+        mobileHomeSteps.validateHamburgerMenuIsVisible()
                 .fillSearchInput(SEARCH_BATUMI)
                 .initiateSearch();
-        mobileListingSteps
-                .collapseCalendar()
+        mobileListingSteps.collapseCalendar()
                 .validateOffersAreInSingleColumn()
                 .validateHeaderIsStickyOnScroll();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void tearDown() {
+        if (page != null) page.close();
+        if (context != null) context.close();
+        if (browser != null) browser.close();
     }
 }

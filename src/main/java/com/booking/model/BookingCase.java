@@ -1,6 +1,5 @@
 package com.booking.model;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -57,7 +56,6 @@ public class BookingCase {
         this.guests = guests;
     }
 
-    // Optionally: toString method
     @Override
     public String toString() {
         return "BookingCase{" +
